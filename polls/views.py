@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import Question, Choice
+from django.urls import reverse
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -31,4 +32,4 @@ def vote(request, question_id):
         selected_choice.votes += 1
         selected_choice.save()
 
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id)))
+        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
